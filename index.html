@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#123b3a" />
+  <meta name="description" content="为职场英语零基础学习者设计的每日 30 分钟学习教练。" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23123b3a'/%3E%3Cpath d='M25 28h50v34H48L35 75V62H25z' fill='%23f4d06f'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>英语学习教练 · 每天 30 分钟</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#today" aria-label="回到今日课程">
+        <span class="brand-mark">E</span>
+        <span><strong>英语学习教练</strong><small>听进去，再说出来</small></span>
+      </a>
+      <button id="installBtn" class="icon-btn install-btn" type="button" hidden aria-label="添加到手机主屏幕">＋</button>
+    </header>
+
+    <main id="app" class="page-wrap">
+      <section id="todayView" class="view active" aria-labelledby="todayTitle">
+        <div class="eyebrow">TODAY · <span id="todayDate"></span></div>
+        <div class="hero-heading">
+          <div>
+            <p class="kicker">第 <span id="dayNumber"></span> 天 · <span id="lessonStage"></span></p>
+            <h1 id="todayTitle">今天只做 30 分钟。</h1>
+            <p id="todaySubtitle" class="muted">听一小段，跟着说一遍，把它带进工作里。</p>
+          </div>
+          <div class="progress-orb" aria-label="今日完成进度"><span id="todayPercent">0%</span></div>
+        </div>
+
+        <div class="stats-strip">
+          <div><strong id="streakStat">0</strong><span>连续打卡</span></div>
+          <div><strong id="completedStat">0</strong><span>已完成课程</span></div>
+          <div><strong id="totalProgressStat">0%</strong><span>两周进度</span></div>
+        </div>
+
+        <div class="today-grid">
+          <article class="card lesson-card">
+            <div class="card-label"><span class="label-dot"></span>今日主线</div>
+            <h2 id="lessonTitle"></h2>
+            <p id="lessonGoal" class="muted"></p>
+            <div id="lessonTags" class="tag-row"></div>
+            <button id="startLessonBtn" class="primary-btn" type="button">进入今日课程 <span>→</span></button>
+          </article>
+          <article class="card routine-card">
+            <div class="card-label">固定流程 <span class="soft-note">伟康方法适配版</span></div>
+            <div class="routine-list">
+              <div><span class="routine-num">01</span><span><b>听</b><small>先听，不急着翻译</small></span></div>
+              <div><span class="routine-num">02</span><span><b>看</b><small>看英文和中文理解</small></span></div>
+              <div><span class="routine-num">03</span><span><b>跟读</b><small>模仿声音和停顿</small></span></div>
+              <div><span class="routine-num">04</span><span><b>复述</b><small>用关键词说出来</small></span></div>
+            </div>
+          </article>
+        </div>
+
+        <section class="task-section">
+          <div class="section-heading"><div><span class="eyebrow">CHECKLIST</span><h2>今天的任务</h2></div><span id="taskCount" class="count-pill">0 / 6</span></div>
+          <div id="taskList" class="task-list"></div>
+          <button id="checkinBtn" class="checkin-btn" type="button">完成今天的学习并打卡</button>
+          <p id="checkinHint" class="center-note">完成至少 5 项任务后可以打卡。中断了也没关系，回来继续就好。</p>
+        </section>
+
+        <div class="coach-note"><span class="note-icon">↗</span><div><b>学习提示</b><p>现在不要追求全部记住。今天只要把 3 句英文听熟、读顺、说出口，就是有效学习。</p></div></div>
+      </section>
+
+      <section id="lessonView" class="view" aria-labelledby="lessonPageTitle">
+        <div class="subnav"><button class="back-btn" data-go="today" type="button">← 今日</button><span id="lessonPageProgress">第 1 / 14 天</span></div>
+        <div class="lesson-page-head"><span id="pageStage" class="eyebrow"></span><h1 id="lessonPageTitle"></h1><p id="pageGoal" class="muted"></p></div>
+
+        <section class="study-block listen-block">
+          <div class="block-head"><div><span class="step-index">01</span><h2>先听一遍</h2></div><span class="time-chip">约 5 分钟</span></div>
+          <p class="instruction">先不看中文，点击播放，尽量抓住你听到的词。</p>
+          <div class="audio-card"><div class="audio-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div><b>今日短对话</b><small>浏览器朗读 · 可反复听</small></div><button id="playAllBtn" class="play-btn" type="button">▶</button></div>
+          <div class="listen-controls"><button id="slowPlayBtn" class="text-btn" type="button">0.8× 慢速播放</button><span id="speechStatus" class="soft-note">准备好了</span></div>
+        </section>
+
+        <section class="study-block text-block">
+          <div class="block-head"><div><span class="step-index">02</span><h2>看文本，理解意思</h2></div><span class="time-chip">约 7 分钟</span></div>
+          <p class="instruction">先看英文，再打开中文。把句子当作整体理解。</p>
+          <div id="transcript" class="transcript-card"></div>
+        </section>
+
+        <section class="study-block vocab-block">
+          <div class="block-head"><div><span class="step-index">03</span><h2>只记重点词</h2></div><span class="time-chip">约 5 分钟</span></div>
+          <p class="instruction">不要孤立背单词。读例句，理解它在这段话里的用法。</p>
+          <div id="vocabGrid" class="vocab-grid"></div>
+        </section>
+
+        <section class="study-block shadow-block">
+          <div class="block-head"><div><span class="step-index">04</span><h2>跟读和朗读</h2></div><span class="time-chip">约 7 分钟</span></div>
+          <p class="instruction">点击每句话，听一句、暂停、跟着读 3 遍。最后连起来读。</p>
+          <div id="shadowList" class="shadow-list"></div>
+        </section>
+
+        <section class="study-block retell-block">
+          <div class="block-head"><div><span class="step-index">05</span><h2>看关键词，复述</h2></div><span class="time-chip">约 3 分钟</span></div>
+          <p id="retellPrompt" class="instruction"></p>
+          <div id="keywordRow" class="keyword-row"></div>
+          <textarea id="retellInput" class="retell-input" rows="3" placeholder="先说出来，再把你说的英文写在这里（不会也没关系）"></textarea>
+          <div class="retell-actions"><button id="playRetellBtn" class="outline-btn" type="button">▶ 听示范</button><button id="saveRetellBtn" class="outline-btn" type="button">保存我的复述</button></div>
+          <p id="retellSaved" class="success-note" hidden>已保存到今天的复习区。</p>
+        </section>
+
+        <section class="study-block transfer-block">
+          <div class="block-head"><div><span class="step-index">06</span><h2>带进你的工作里</h2></div><span class="time-chip">约 3 分钟</span></div>
+          <p class="instruction">把刚才的句型换成你会对客户说的话。先模仿，再替换。</p>
+          <div id="workTransfer" class="transfer-card"></div>
+        </section>
+
+        <section class="study-block quiz-block">
+          <div class="block-head"><div><span class="step-index">07</span><h2>一分钟小测</h2></div><span class="time-chip">约 2 分钟</span></div>
+          <div id="quizBox" class="quiz-box"></div>
+        </section>
+
+        <section class="study-block check-block">
+          <div class="block-head"><div><span class="step-index">08</span><h2>确认自己真的会了</h2></div><span class="time-chip">本地检查</span></div>
+          <p class="instruction">填空检查记忆，再读出一句短句。这里不调用 AI，也不会消耗积分。</p>
+          <div id="fillCheck" class="check-card"></div>
+          <div id="voiceCheck" class="check-card voice-check"></div>
+        </section>
+
+        <div class="lesson-footer"><button id="finishLessonBtn" class="checkin-btn" type="button">完成本课学习</button><button id="nextLessonBtn" class="next-btn" type="button">下一课 →</button></div>
+      </section>
+
+      <section id="coursesView" class="view" aria-labelledby="coursesTitle">
+        <div class="eyebrow">COURSE MAP</div><h1 id="coursesTitle">课程地图</h1><p class="muted intro-copy">先把基础句子听熟、说顺，再逐步迁移到客户沟通。</p>
+        <div class="course-overview card"><div><span class="eyebrow">当前路线</span><h2>基础职场英语 · 14 天起步</h2><p>每天约 30 分钟，原创短材料配合你的新概念学习。</p></div><div class="mini-progress"><strong id="courseProgressText">0 / 14</strong><span>天已完成</span></div></div>
+        <div id="courseList" class="course-list"></div>
+      </section>
+
+      <section id="reviewView" class="view" aria-labelledby="reviewTitle">
+        <div class="eyebrow">REVIEW DESK</div><h1 id="reviewTitle">复习桌</h1><p class="muted intro-copy">把不熟的句子留在这里，下一次打开就能再听一遍、再说一遍。</p>
+        <div class="review-summary"><div><strong id="reviewCount">0</strong><span>条待复习</span></div><div><strong id="retellCount">0</strong><span>次复述记录</span></div><div><strong id="reviewStreak">0</strong><span>天坚持</span></div></div>
+        <div id="reviewContent" class="review-content"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主导航">
+      <button class="nav-item active" data-view="today" type="button"><span>◔</span><b>今日</b></button>
+      <button class="nav-item" data-view="courses" type="button"><span>▤</span><b>课程</b></button>
+      <button class="nav-item" data-view="review" type="button"><span>↺</span><b>复习</b></button>
+    </nav>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
