@@ -114,8 +114,9 @@ function renderLesson() {
   document.getElementById('pageStage').textContent = `${String(lesson.day).padStart(2, '0')} · ${lesson.stage}`;
   document.getElementById('lessonPageTitle').textContent = lesson.title;
   document.getElementById('pageGoal').textContent = lesson.goal;
-  document.getElementById('transcript').innerHTML = lesson.transcript.map((line, index) => `<div class="transcript-line"><button type="button" data-say-index="${index}">${esc(line[0])}</button><p>${esc(line[1])}</p></div>`).join('');
+  document.getElementById('transcript').innerHTML = lesson.transcript.map((line, index) => `<div class="transcript-line"><button type="button" data-say-index="${index}">${esc(line[0])}</button><p class="translation" hidden>${esc(line[1])}</p><button type="button" class="meaning-toggle" data-meaning-index="${index}">meaning</button></div>`).join('');
   document.getElementById('transcript').querySelectorAll('[data-say-index]').forEach((btn) => btn.addEventListener('click', () => speak(lesson.transcript[Number(btn.dataset.sayIndex)][0])));
+  document.getElementById('transcript').querySelectorAll('[data-meaning-index]').forEach((btn) => btn.addEventListener('click', () => { const meaning = btn.closest('.transcript-line').querySelector('.translation'); meaning.hidden = !meaning.hidden; btn.textContent = meaning.hidden ? 'meaning' : 'hide'; }));
   document.getElementById('vocabGrid').innerHTML = lesson.words.map((word) => `<article class="vocab-card"><b>${esc(word[0])}</b><span class="meaning">${esc(word[1])}</span><p>${esc(word[2])}</p></article>`).join('');
   document.getElementById('shadowList').innerHTML = lesson.transcript.map((line, index) => `<div class="shadow-line"><button type="button" data-say-index="${index}">▶</button><span>${esc(line[0])}</span></div>`).join('');
   document.getElementById('shadowList').querySelectorAll('[data-say-index]').forEach((btn) => btn.addEventListener('click', () => speak(lesson.transcript[Number(btn.dataset.sayIndex)][0], false)));
